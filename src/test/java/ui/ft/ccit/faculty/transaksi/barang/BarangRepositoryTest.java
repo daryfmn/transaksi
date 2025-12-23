@@ -6,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
-import ui.ft.ccit.faculty.transaksi.barang.model.Barang;
-import ui.ft.ccit.faculty.transaksi.barang.model.BarangRepository;
+import ui.ft.ccit.faculty.transaksi.model.Barang;
+import ui.ft.ccit.faculty.transaksi.domain.repository.BarangRepository;
 
 import java.util.List;
 
