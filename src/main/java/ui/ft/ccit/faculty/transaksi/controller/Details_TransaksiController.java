@@ -1,8 +1,5 @@
 package ui.ft.ccit.faculty.transaksi.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import ui.ft.ccit.faculty.transaksi.model.Details_Transaksi;
 import ui.ft.ccit.faculty.transaksi.domain.service.Details_TransaksiService;
 import ui.ft.ccit.faculty.transaksi.ErrorResponse;
@@ -28,9 +25,21 @@ public class Details_TransaksiController {
     }
 
     @GetMapping
-    @Operation(summary = "get all detail transaksi", description = "get all detail transaksi data")
-    public List<Details_Transaksi> getAll() {
-        return detailTransaksiService.getAll();
+    @Operation(summary = "Mengambil daftar semua details transaksi", description = "Mengambil seluruh data details transaksi yang tersedia di sistem.\r\n"
+            + //
+            "Mendukung pagination opsional melalui parameter `page` dan `size`.")
+    public List<Details_Transaksi> list(
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size) {
+        // TANPA pagination
+        if (page == null && size == null) {
+            return detailTransaksiService.getAll();
+        }
+
+        // DENGAN pagination
+        int p = (page != null && page >= 0) ? page : 0;
+        int s = (size != null && size > 0) ? size : 5;
+        return detailTransaksiService.getAllWithPagination(p, s);
     }
 
     @GetMapping("/{kodeTransaksi}/{idBarang}")
@@ -42,6 +51,15 @@ public class Details_TransaksiController {
     @Operation(summary = "get detail transaksi by composite id", description = "get detail transaksi by kode transaksi and id barang")
     public Details_Transaksi getById(@PathVariable String kodeTransaksi, @PathVariable String idBarang) {
         return detailTransaksiService.getById(kodeTransaksi, idBarang);
+    }
+
+    @GetMapping("/search")
+    @Operation(summary = "Search detail transaksi", description = "Mencari detail berdasarkan kode transaksi dan/atau ID barang.")
+    public List<Details_Transaksi> search(
+            @RequestParam(required = false) String kode,
+            @RequestParam(required = false) String barang
+    ) {
+        return detailTransaksiService.searchDetails(kode, barang);
     }
 
     @GetMapping("/transaksi/{kodeTransaksi}")

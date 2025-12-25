@@ -48,4 +48,51 @@ public class OpenApiConfig {
                                 .build();
         }
 
+        @Bean
+        public GroupedOpenApi jenisBarangApi() {
+                return GroupedOpenApi.builder()
+                                .group("JenisBarang")
+                                .pathsToMatch("/api/jenis_barang/**")
+                                .build();
+        }
+
+        @Bean
+        public GroupedOpenApi karyawanApi() {
+                return GroupedOpenApi.builder()
+                                .group("Karyawan")
+                                .pathsToMatch("/api/karyawan/**")
+                                .build();
+        }
+
+        @Bean
+        public GroupedOpenApi pemasokApi() {
+                return GroupedOpenApi.builder()
+                                .group("Pemasok")
+                                .pathsToMatch("/api/pemasok/**")
+                                .build();
+        }
+
+        @Bean
+        public GroupedOpenApi pelangganApi() {
+                return GroupedOpenApi.builder()
+                                .group("Pelanggan")
+                                .pathsToMatch("/api/pelanggan/**")
+                                .build();
+        }
+
+        @Bean
+        public GroupedOpenApi transaksiApi() {
+                return GroupedOpenApi.builder()
+                                .group("Transaksi")
+                                .pathsToMatch("/api/transaksi/**")
+                                .build();
+        }
+
+        @Bean
+        public GroupedOpenApi detailsTransaksiApi() {
+                return GroupedOpenApi.builder()
+                                .group("Details Transaksi")
+                                .pathsToMatch("/api/details_transaksi/**")
+                                .build();
+        }
 }

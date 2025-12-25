@@ -2,6 +2,7 @@ package ui.ft.ccit.faculty.transaksi.model;
 
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 @Entity
 @Table(name = "transaksi")
@@ -11,6 +12,7 @@ public class Transaksi {
     @Column(name = "kode_transaksi", length = 4)
     private String kodeTransaksi;
 
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "tgl_transaksi", nullable = false)
     private LocalDateTime tglTransaksi;
 

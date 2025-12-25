@@ -2,6 +2,7 @@ package ui.ft.ccit.faculty.transaksi.domain.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,16 @@ public class JenisBarangService {
 
     public List<JenisBarang> getAll(){
         return jenisBarangRepository.findAll();
+    }
+
+    public List<JenisBarang> getAllWithPagination(int page, int size) {
+        return jenisBarangRepository
+                .findAll(PageRequest.of(page, size))
+                .getContent();
+    }
+
+    public List<JenisBarang> searchByNamaJenis(String keyword) {
+        return jenisBarangRepository.findByNamaJenisContainingIgnoreCase(keyword);
     }
 
     public JenisBarang getById(Byte id){

@@ -1,6 +1,9 @@
 package ui.ft.ccit.faculty.transaksi.domain.service;
 
+import java.time.LocalDate;
 import java.util.List;
+
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +23,26 @@ public class TransaksiService {
 
     public List<Transaksi> getAll() {
         return transaksiRepository.findAll();
+    }
+
+    public List<Transaksi> getAllWithPagination(int page, int size) {
+        return transaksiRepository
+                .findAll(PageRequest.of(page, size))
+                .getContent();
+    }
+
+    public List<Transaksi> advancedSearch(String kode, LocalDate tgl, String karyawan, String pelanggan) {
+        // Clean the input strings
+        String cleanKode = (kode != null) ? kode.trim() : null;
+        String cleanKaryawan = (karyawan != null) ? karyawan.trim() : null;
+        String cleanPelanggan = (pelanggan != null) ? pelanggan.trim() : null;
+
+        return transaksiRepository.findByAdvancedSearch(
+            cleanKode, 
+            tgl, 
+            cleanKaryawan, 
+            cleanPelanggan
+        );
     }
 
     public Transaksi getById(String id) {

@@ -1,6 +1,8 @@
 package ui.ft.ccit.faculty.transaksi.domain.service;
 
 import java.util.List;
+
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -20,6 +22,16 @@ public class KaryawanService {
 
     public List<Karyawan> getAll() {
         return karyawanRepository.findAll();
+    }
+
+    public List<Karyawan> getAllWithPagination(int page, int size) {
+        return karyawanRepository
+                .findAll(PageRequest.of(page, size))
+                .getContent();
+    }
+
+    public List<Karyawan> searchByNama(String keyword) {
+        return karyawanRepository.findByNamaContainingIgnoreCase(keyword);
     }
 
     public Karyawan getById(String id) {

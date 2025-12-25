@@ -2,6 +2,7 @@ package ui.ft.ccit.faculty.transaksi.domain.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,11 +25,21 @@ public class Details_TransaksiService {
         return detailTransaksiRepository.findAll();
     }
 
+    public List<Details_Transaksi> getAllWithPagination(int page, int size) {
+        return detailTransaksiRepository
+                .findAll(PageRequest.of(page, size))
+                .getContent();
+    }
+
     public Details_Transaksi getById(String kodeTransaksi, String idBarang){
         Details_TransaksiId id = new Details_TransaksiId(kodeTransaksi, idBarang);
         return detailTransaksiRepository.findById(id)
             .orElseThrow(() -> new DataNotFoundException("Detail Transaksi", 
                 kodeTransaksi + "-" + idBarang));
+    }
+
+    public List<Details_Transaksi> searchDetails(String kode, String barang) {
+        return detailTransaksiRepository.findByAdvancedSearch(kode, barang);
     }
 
     public List<Details_Transaksi> getByKodeTransaksi(String kodeTransaksi){

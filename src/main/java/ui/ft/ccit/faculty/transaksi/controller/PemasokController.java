@@ -1,8 +1,5 @@
 package ui.ft.ccit.faculty.transaksi.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import ui.ft.ccit.faculty.transaksi.model.Pemasok;
 import ui.ft.ccit.faculty.transaksi.domain.service.PemasokService;
 import ui.ft.ccit.faculty.transaksi.ErrorResponse;
@@ -28,9 +25,21 @@ public class PemasokController {
     }
 
     @GetMapping
-    @Operation(summary = "get all pemasok", description = "get all pemasok data")
-    public List<Pemasok> getAll() {
-        return pemasokService.getAll();
+    @Operation(summary = "Mengambil daftar semua pemasok", description = "Mengambil seluruh data pemasok yang tersedia di sistem.\r\n"
+            + //
+            "Mendukung pagination opsional melalui parameter `page` dan `size`.")
+    public List<Pemasok> list(
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size) {
+        // TANPA pagination
+        if (page == null && size == null) {
+            return pemasokService.getAll();
+        }
+
+        // DENGAN pagination
+        int p = (page != null && page >= 0) ? page : 0;
+        int s = (size != null && size > 0) ? size : 5;
+        return pemasokService.getAllWithPagination(p, s);
     }
 
     @GetMapping("/{id}")
@@ -42,6 +51,18 @@ public class PemasokController {
     @Operation(summary = "get pemasok by id", description = "get pemasok details based on id")
     public Pemasok getById(@PathVariable String id) {
         return pemasokService.getById(id);
+    }
+
+    @GetMapping("/search")
+     @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = Pemasok.class)) }),
+            @ApiResponse(responseCode = "409", description = "DATA_CONFLICT", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) })
+    })
+    @Operation(summary = "Mencari barang berdasarkan jenis nama", description = "Mencari jenis barang berdasarkan kata kunci pada nama.")
+    public List<Pemasok> search(@RequestParam String q) {
+        return pemasokService.searchByNamaPemasok(q);
     }
 
     @PostMapping

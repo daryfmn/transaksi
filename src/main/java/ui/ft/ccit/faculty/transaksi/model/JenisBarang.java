@@ -28,10 +28,6 @@ public class JenisBarang {
         return idJenisBarang;
     }
 
-    // public void setIdJenisBarang(Byte idJenisBarang) {
-    //     this.idJenisBarang = idJenisBarang;
-    // }
-
     public String getNamaJenis() {
         return namaJenis;
     }

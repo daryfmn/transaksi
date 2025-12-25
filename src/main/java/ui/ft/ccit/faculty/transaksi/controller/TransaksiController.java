@@ -1,8 +1,5 @@
 package ui.ft.ccit.faculty.transaksi.controller;
 
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import ui.ft.ccit.faculty.transaksi.model.Transaksi;
 import ui.ft.ccit.faculty.transaksi.domain.service.TransaksiService;
 import ui.ft.ccit.faculty.transaksi.ErrorResponse;
@@ -13,8 +10,10 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 
+import java.time.LocalDate;
 import java.util.List;
 
+import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -28,9 +27,21 @@ public class TransaksiController {
     }
 
     @GetMapping
-    @Operation(summary = "get all transaksi", description = "get all transaksi data")
-    public List<Transaksi> getAll() {
-        return transaksiService.getAll();
+    @Operation(summary = "Mengambil daftar semua transaksi", description = "Mengambil seluruh data transaksi yang tersedia di sistem.\r\n"
+            + //
+            "Mendukung pagination opsional melalui parameter `page` dan `size`.")
+    public List<Transaksi> list(
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size) {
+        // TANPA pagination
+        if (page == null && size == null) {
+            return transaksiService.getAll();
+        }
+
+        // DENGAN pagination
+        int p = (page != null && page >= 0) ? page : 0;
+        int s = (size != null && size > 0) ? size : 5;
+        return transaksiService.getAllWithPagination(p, s);
     }
 
     @GetMapping("/{id}")
@@ -42,6 +53,25 @@ public class TransaksiController {
     @Operation(summary = "get transaksi by id", description = "get transaksi details based on kode transaksi")
     public Transaksi getById(@PathVariable String id) {
         return transaksiService.getById(id);
+    }
+
+    @GetMapping("/search")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = {
+                    @Content(mediaType = "application/json", 
+                    schema = @Schema(implementation = Transaksi.class)) }),
+            @ApiResponse(responseCode = "400", description = "BAD_REQUEST", content = {
+                    @Content(mediaType = "application/json") })
+    })
+    @Operation(summary = "Pencarian transaksi tingkat lanjut", 
+               description = "Mencari transaksi berdasarkan kode, tanggal, nama karyawan, atau nama pelanggan.")
+    public List<Transaksi> search(
+            @RequestParam(required = false) String kode,
+            @RequestParam(required = false) @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate tgl,
+            @RequestParam(required = false) String karyawan,
+            @RequestParam(required = false) String pelanggan
+    ) {
+        return transaksiService.advancedSearch(kode, tgl, karyawan, pelanggan);
     }
 
     @PostMapping

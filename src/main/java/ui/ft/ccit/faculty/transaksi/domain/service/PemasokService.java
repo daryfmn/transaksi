@@ -2,6 +2,7 @@ package ui.ft.ccit.faculty.transaksi.domain.service;
 
 import java.util.List;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,6 +22,16 @@ public class PemasokService {
 
     public List<Pemasok> getAll(){
         return pemasokRepository.findAll();
+    }
+
+    public List<Pemasok> getAllWithPagination(int page, int size) {
+        return pemasokRepository
+                .findAll(PageRequest.of(page, size))
+                .getContent();
+    }
+
+    public List<Pemasok> searchByNamaPemasok(String keyword) {
+        return pemasokRepository.findByNamaPemasokContainingIgnoreCase(keyword);
     }
 
     public Pemasok getById(String id){

@@ -15,7 +15,7 @@ import java.util.List;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/jenis-barang")
+@RequestMapping("/api/jenis_barang")
 public class JenisBarangController {
 
     private final JenisBarangService jenisBarangService;
@@ -25,9 +25,21 @@ public class JenisBarangController {
     }
 
     @GetMapping
-    @Operation(summary = "get all jenis barang", description = "get all jenis barang data")
-    public List<JenisBarang> getAll() {
-        return jenisBarangService.getAll();
+    @Operation(summary = "Mengambil daftar semua jenis barang", description = "Mengambil seluruh data jenis barang yang tersedia di sistem.\r\n"
+            + //
+            "Mendukung pagination opsional melalui parameter `page` dan `size`.")
+    public List<JenisBarang> list(
+            @RequestParam(required = false) Integer page,
+            @RequestParam(required = false) Integer size) {
+        // TANPA pagination
+        if (page == null && size == null) {
+            return jenisBarangService.getAll();
+        }
+
+        // DENGAN pagination
+        int p = (page != null && page >= 0) ? page : 0;
+        int s = (size != null && size > 0) ? size : 5;
+        return jenisBarangService.getAllWithPagination(p, s);
     }
 
     @GetMapping("/{id}")
@@ -39,6 +51,18 @@ public class JenisBarangController {
     @Operation(summary = "get jenis barang by id", description = "get jenis barang details based on id")
     public JenisBarang getById(@PathVariable Byte id) {
         return jenisBarangService.getById(id);
+    }
+
+    @GetMapping("/search")
+     @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = JenisBarang.class)) }),
+            @ApiResponse(responseCode = "409", description = "DATA_CONFLICT", content = {
+                    @Content(mediaType = "application/json", schema = @Schema(implementation = ErrorResponse.class)) })
+    })
+    @Operation(summary = "Mencari barang berdasarkan jenis nama", description = "Mencari jenis barang berdasarkan kata kunci pada nama.")
+    public List<JenisBarang> search(@RequestParam String q) {
+        return jenisBarangService.searchByNamaJenis(q);
     }
 
     @PostMapping
