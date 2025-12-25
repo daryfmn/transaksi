@@ -1,7 +1,6 @@
 package ui.ft.ccit.faculty.transaksi.controller;
 
 import ui.ft.ccit.faculty.transaksi.model.Details_Transaksi;
-import ui.ft.ccit.faculty.transaksi.model.Transaksi;
 import ui.ft.ccit.faculty.transaksi.domain.service.Details_TransaksiService;
 import ui.ft.ccit.faculty.transaksi.ErrorResponse;
 
