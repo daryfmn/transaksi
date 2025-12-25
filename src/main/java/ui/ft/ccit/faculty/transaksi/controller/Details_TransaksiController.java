@@ -1,6 +1,7 @@
 package ui.ft.ccit.faculty.transaksi.controller;
 
 import ui.ft.ccit.faculty.transaksi.model.Details_Transaksi;
+import ui.ft.ccit.faculty.transaksi.model.Transaksi;
 import ui.ft.ccit.faculty.transaksi.domain.service.Details_TransaksiService;
 import ui.ft.ccit.faculty.transaksi.ErrorResponse;
 
@@ -53,8 +54,15 @@ public class Details_TransaksiController {
         return detailTransaksiService.getById(kodeTransaksi, idBarang);
     }
 
-    @GetMapping("/search")
-    @Operation(summary = "Search detail transaksi", description = "Mencari detail berdasarkan kode transaksi dan/atau ID barang.")
+    @GetMapping("/search")@ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "OK", content = {
+                    @Content(mediaType = "application/json", 
+                    schema = @Schema(implementation = Details_Transaksi.class)) }),
+            @ApiResponse(responseCode = "400", description = "BAD_REQUEST", content = {
+                    @Content(mediaType = "application/json") })
+    })
+    @Operation(summary = "Pencarian transaksi tingkat lanjut", 
+               description = "Mencari transaksi berdasarkan kode, tanggal, nama karyawan, atau nama pelanggan.")
     public List<Details_Transaksi> search(
             @RequestParam(required = false) String kode,
             @RequestParam(required = false) String barang
