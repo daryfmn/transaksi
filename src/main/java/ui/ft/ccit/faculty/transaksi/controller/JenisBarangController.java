@@ -24,6 +24,7 @@ public class JenisBarangController {
         this.jenisBarangService = jenisBarangService;
     }
 
+    // VIEW ALL JENIS BARANG
     @GetMapping
     @Operation(summary = "Mengambil daftar semua jenis barang", description = "Mengambil seluruh data jenis barang yang tersedia di sistem.\r\n"
             + //
@@ -42,6 +43,8 @@ public class JenisBarangController {
         return jenisBarangService.getAllWithPagination(p, s);
     }
 
+
+    // VIEW BASED ON ID
     @GetMapping("/{id}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -53,6 +56,8 @@ public class JenisBarangController {
         return jenisBarangService.getById(id);
     }
 
+
+    // VIEW BASED ON WORD INPUT USING PARAMETER
     @GetMapping("/search")
      @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -65,6 +70,7 @@ public class JenisBarangController {
         return jenisBarangService.searchByNamaJenis(q);
     }
 
+    // CREATE JENIS BARANG
     @PostMapping
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -77,6 +83,7 @@ public class JenisBarangController {
         return jenisBarangService.create(jenisBarang);
     }
 
+    // UPDATE BASED ON ID
     @PutMapping("/{id}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -88,6 +95,7 @@ public class JenisBarangController {
         return jenisBarangService.update(id, jenisBarang);
     }
 
+    // DELETE BASED ON ID
     @DeleteMapping("/{id}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),

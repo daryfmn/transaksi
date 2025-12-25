@@ -7,5 +7,7 @@ import java.util.List;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface JenisBarangRepository extends JpaRepository<JenisBarang, Byte> {
+
+    // Mencari barang berdasarkan nama mengandung kata tertentu
     List<JenisBarang> findByNamaJenisContainingIgnoreCase(String keyword);
 }

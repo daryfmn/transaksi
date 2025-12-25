@@ -26,6 +26,7 @@ public class TransaksiController {
         this.transaksiService = transaksiService;
     }
 
+    // VIEW ALL TRANSAKSI
     @GetMapping
     @Operation(summary = "Mengambil daftar semua transaksi", description = "Mengambil seluruh data transaksi yang tersedia di sistem.\r\n"
             + //
@@ -44,6 +45,7 @@ public class TransaksiController {
         return transaksiService.getAllWithPagination(p, s);
     }
 
+    // VIEW BASED ON ID
     @GetMapping("/{id}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -55,6 +57,7 @@ public class TransaksiController {
         return transaksiService.getById(id);
     }
 
+    // VIEW BASED ON WORD INPUT USING PARAMETER
     @GetMapping("/search")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -74,6 +77,7 @@ public class TransaksiController {
         return transaksiService.advancedSearch(kode, tgl, karyawan, pelanggan);
     }
 
+    // CREATE TRANSAKSI
     @PostMapping
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -86,6 +90,7 @@ public class TransaksiController {
         return transaksiService.create(transaksi);
     }
 
+    // UPDATE BASED ON ID
     @PutMapping("/{id}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -97,6 +102,7 @@ public class TransaksiController {
         return transaksiService.update(id, transaksi);
     }
 
+    // DELETE BASED ON ID
     @DeleteMapping("/{id}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),

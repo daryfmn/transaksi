@@ -24,6 +24,7 @@ public class Details_TransaksiController {
         this.detailTransaksiService = detailTransaksiService;
     }
 
+    // VIEW ALL DETAILS TRANSAKSI
     @GetMapping
     @Operation(summary = "Mengambil daftar semua details transaksi", description = "Mengambil seluruh data details transaksi yang tersedia di sistem.\r\n"
             + //
@@ -42,6 +43,7 @@ public class Details_TransaksiController {
         return detailTransaksiService.getAllWithPagination(p, s);
     }
 
+    // VIEW BASED ON KODETRANSAKSI AND IDBARANG
     @GetMapping("/{kodeTransaksi}/{idBarang}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -53,6 +55,7 @@ public class Details_TransaksiController {
         return detailTransaksiService.getById(kodeTransaksi, idBarang);
     }
 
+    // VIEW BASED ON WORD INPUT USING PARAMETER
     @GetMapping("/search")@ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
                     @Content(mediaType = "application/json", 
@@ -69,18 +72,21 @@ public class Details_TransaksiController {
         return detailTransaksiService.searchDetails(kode, barang);
     }
 
+    // VIEW BASED ON KODETRANSAKSI
     @GetMapping("/transaksi/{kodeTransaksi}")
     @Operation(summary = "get details by kode transaksi", description = "get all detail transaksi for a specific transaksi")
     public List<Details_Transaksi> getByKodeTransaksi(@PathVariable String kodeTransaksi) {
         return detailTransaksiService.getByKodeTransaksi(kodeTransaksi);
     }
 
+    // VIEW BASED ON IDBARANG
     @GetMapping("/barang/{idBarang}")
     @Operation(summary = "get details by id barang", description = "get all detail transaksi for a specific barang")
     public List<Details_Transaksi> getByIdBarang(@PathVariable String idBarang) {
         return detailTransaksiService.getByIdBarang(idBarang);
     }
 
+    // CREATE DETAILS TRANSAKSI
     @PostMapping
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -93,6 +99,7 @@ public class Details_TransaksiController {
         return detailTransaksiService.create(detailTransaksi);
     }
 
+    // UPDATE BASED ON KODETRANSAKSI AND IDBARANG
     @PutMapping("/{kodeTransaksi}/{idBarang}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK", content = {
@@ -105,6 +112,7 @@ public class Details_TransaksiController {
         return detailTransaksiService.update(kodeTransaksi, idBarang, detailTransaksi);
     }
 
+    // DELETE BASED ON KODETRANSAKSI AND IDBARANG
     @DeleteMapping("/{kodeTransaksi}/{idBarang}")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "OK"),
