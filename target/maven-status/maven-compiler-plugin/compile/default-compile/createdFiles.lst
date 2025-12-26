@@ -25,6 +25,7 @@ ui\ft\ccit\faculty\transaksi\controller\TransaksiController.class
 ui\ft\ccit\faculty\transaksi\domain\service\JenisBarangService.class
 ui\ft\ccit\faculty\transaksi\domain\repository\JenisBarangRepository.class
 ui\ft\ccit\faculty\transaksi\model\Pemasok.class
+ui\ft\ccit\faculty\transaksi\SecurityConfig.class
 ui\ft\ccit\faculty\transaksi\domain\service\BarangAlreadyExistsException.class
 ui\ft\ccit\faculty\transaksi\model\Barang.class
 ui\ft\ccit\faculty\transaksi\TransaksiApplication.class
